@@ -17,6 +17,12 @@ function display {
 	fi
 }
 
+function container {
+	if [ ! -f .hosts ]; then
+		touch .hosts
+	fi
+}
+
 function input {
 	echo "What is the host nickname? (ONE WORD)"
 	read hostname
@@ -31,5 +37,5 @@ function input {
 	echo ""
 	display
 }
-
+container
 display
