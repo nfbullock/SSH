@@ -42,10 +42,27 @@ function rsacopy {
 	echo "Would you like to copy your public key? (y/n)"
 	read rsacp
 	if [ $rsacp == "y" ]; then
+		keycheck
 		scp -P $port ~/.ssh/id_rsa.pub $user@$host:~/
 		ssh -p $port $user@$host 'mkdir .ssh 2>&1 1> /dev/null'
 		ssh -p $port $user@$host 'cat ~/id_rsa.pub >> ~/.ssh/authorized_keys && rm -f ~/id_rsa.pub'
 	fi
 }
+
+function keycheck {
+	if [ !	-f ~/.ssh/*.pub ]; then
+		echo "It doesn't look like you've generated one."
+		echo "Let me do that for you now."
+		echo "Would you like to use a passphrase? (y/n)"
+		mkdir ~/.ssh
+		read passphrase
+			if [ $passphrase == "y" ]; then
+				ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -q
+			else
+				ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -q -N ""
+			fi
+	fi
+}
+
 container
 display
