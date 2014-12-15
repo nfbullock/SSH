@@ -37,5 +37,15 @@ function input {
 	echo ""
 	display
 }
+
+function rsacopy {
+	echo "Would you like to copy your public key? (y/n)"
+	read rsacp
+	if [ $rsacp == "y" ]; then
+		scp -P $port ~/.ssh/id_rsa.pub $user@$host:~/
+		ssh -p $port $user@$host 'mkdir .ssh 2>&1 1> /dev/null'
+		ssh -p $port $user@$host 'cat ~/id_rsa.pub >> ~/.ssh/authorized_keys && rm -f ~/id_rsa.pub'
+	fi
+}
 container
 display
