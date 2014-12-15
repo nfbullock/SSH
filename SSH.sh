@@ -33,6 +33,7 @@ function input {
 	echo "User?"
 	read user
 	echo $hostname "ssh -p "$port $user"@"$host >> .hosts
+	rsacopy
 	echo "Thanks for adding..."
 	echo ""
 	display
