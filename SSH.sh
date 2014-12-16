@@ -12,7 +12,7 @@ function display {
 	if [ $server -eq 0 ]; then
 		input
 	else
-		comm=$(sed -n ${server}p .hosts | awk '{$1=""; print $0}')
+		comm=$(sed -n ${server}p $HOME/.hosts | awk '{$1=""; print $0}')
 		$comm
 	fi
 }
@@ -45,7 +45,7 @@ function rsacopy {
 	if [ $rsacp == "y" ]; then
 		keycheck
 		scp -P $port $HOME/.ssh/id_rsa.pub $user@$host:$HOME/
-		ssh -p $port $user@$host 'mkdir .ssh 2>&1 1> /dev/null'
+		ssh -p $port $user@$host 'mkdir $HOME/.ssh' 2> /dev/null
 		ssh -p $port $user@$host 'cat $HOME/id_rsa.pub >> $HOME/.ssh/authorized_keys && rm -f $HOME/id_rsa.pub'
 	fi
 }
@@ -55,7 +55,7 @@ function keycheck {
 		echo "It doesn't look like you've generated 'id_rsa.pub'."
 		echo "Let me do that for you now."
 		echo "Would you like to use a passphrase? (y/n)"
-		mkdir $HOME/.ssh
+		mkdir $HOME/.ssh 2> /dev/null
 		read passphrase
 			if [ $passphrase == "y" ]; then
 				ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/id_rsa -q
