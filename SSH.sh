@@ -51,8 +51,8 @@ function rsacopy {
 }
 
 function keycheck {
-	if [ !	-f ~/.ssh/*.pub ]; then
-		echo "It doesn't look like you've generated one."
+	if [ !	-f ~/.ssh/id_rsa.pub ]; then
+		echo "It doesn't look like you've generated 'id_rsa.pub'."
 		echo "Let me do that for you now."
 		echo "Would you like to use a passphrase? (y/n)"
 		mkdir ~/.ssh
