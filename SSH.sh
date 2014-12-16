@@ -44,9 +44,9 @@ function rsacopy {
 	read rsacp
 	if [ $rsacp == "y" ]; then
 		keycheck
-		scp -P $port $HOME/.ssh/id_rsa.pub $user@$host:$HOME/
-		ssh -p $port $user@$host 'mkdir $HOME/.ssh' 2> /dev/null
-		ssh -p $port $user@$host 'cat $HOME/id_rsa.pub >> $HOME/.ssh/authorized_keys && rm -f $HOME/id_rsa.pub'
+		scp -P $port $HOME/.ssh/id_rsa.pub $user@$host:~/
+		ssh -p $port $user@$host 'mkdir ~/.ssh' 2> /dev/null
+		ssh -p $port $user@$host 'cat ~/id_rsa.pub >> ~/.ssh/authorized_keys && rm -f ~/id_rsa.pub'
 	fi
 }
 
