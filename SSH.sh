@@ -3,12 +3,11 @@
 function display {
 	hostnum=1
 	echo ""
-	echo "Where would you like to jump?"
 	echo "-----------------------------"
     echo "0 - Create a new entry"
 	cat $HOME/.hosts | awk '{print $1}' | while read i; do echo $hostnum - $i; hostnum=$((hostnum+1)); done;
 	echo
-	read server
+	read -p "Where would you like to jump? (0): " server; server=${server:-0}
 	if [ $server -eq 0 ]; then
 		input
 	else
@@ -24,14 +23,10 @@ function container {
 }
 
 function input {
-	echo "What is the host nickname? (ONE WORD)"
-	read hostname
-	echo "What is the address? IP or FQDN"
-	read host 
-	echo "Port?"
-	read port
-	echo "User?"
-	read user
+	read -p "What's the address? IP or FQDN: " host
+	read -p "Nickname? ONE WORD: " hostname
+	read -p "Port? (22): " port; port=${port:-22} 
+	read -p "User? (root): " user; user=${user:-root}
 	echo $hostname "ssh -p "$port $user"@"$host >> $HOME/.hosts
 	rsacopy
 	echo "Thanks for adding..."
