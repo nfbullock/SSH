@@ -1,13 +1,17 @@
 #!/bin/bash
 
+function printbar {
+	printf "%s\n" "" "-----------------------------" ""
+}
+
 function display {
 	hostnum=1
-	echo ""
-	echo "-----------------------------"
+	printbar
     echo "0 - Create a new entry"
 	cat $HOME/.hosts | awk '{print $1}' | while read i; do echo $hostnum - $i; hostnum=$((hostnum+1)); done;
 	echo
 	read -p "Where would you like to jump? (0): " server; server=${server:-0}
+	printbar
 	if [ $server -eq 0 ]; then
 		input
 	else
@@ -23,14 +27,15 @@ function container {
 }
 
 function input {
+	read -p "Host nickname? ONE WORD: " hostname
 	read -p "What's the address? IP or FQDN: " host
-	read -p "Nickname? ONE WORD: " hostname
 	read -p "Port? (22): " port; port=${port:-22} 
 	read -p "User? (root): " user; user=${user:-root}
 	echo $hostname "ssh -p "$port $user"@"$host >> $HOME/.hosts
+	printbar
 	rsacopy
-	echo "Thanks for adding..."
-	echo ""
+	printbar
+	echo "This host has been added."
 	display
 }
 
