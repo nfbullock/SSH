@@ -40,9 +40,8 @@ function input {
 }
 
 function rsacopy {
-	echo "Would you like to copy your public key? (y/n)"
-	read rsacp
-	if [ $rsacp == "y" ]; then
+	read -p "Would you like to copy your public key? (Y/n): " rsacp; rsacp=${rscap:-y}
+	if [ $rsacp == "y" ] || [ $rsacp == "Y" ]; then
 		keycheck
 		scp -P $port $HOME/.ssh/id_rsa.pub $user@$host:~/
 		ssh -p $port $user@$host 'mkdir ~/.ssh' 2> /dev/null
@@ -52,12 +51,11 @@ function rsacopy {
 
 function keycheck {
 	if [ !	-f $HOME/.ssh/id_rsa.pub ]; then
-		echo "It doesn't look like you've generated 'id_rsa.pub'."
+		echo "It doesn't look like you've generated the default 'id_rsa.pub'."
 		echo "Let me do that for you now."
-		echo "Would you like to use a passphrase? (y/n)"
 		mkdir $HOME/.ssh 2> /dev/null
-		read passphrase
-			if [ $passphrase == "y" ]; then
+		read -p  "Would you like to use a passphrase? (Y/n): " passphrase; passphrase=${passphrase:-y}
+			if [ $passphrase == "y" ] || [ $passphrase == "Y" ]; then
 				ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/id_rsa -q
 			else
 				ssh-keygen -t rsa -b 2048 -f $HOME/.ssh/id_rsa -q -N ""
