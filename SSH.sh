@@ -3,7 +3,7 @@
 HOSTS=${HOME}/.hosts
 
 function printbar {
-    printf "%s\n" "" "-----------------------------" ""
+    printf "%s\n" "-------------------------------------"
 }
 
 function display {
@@ -14,6 +14,7 @@ function display {
         echo $hostnum - $i
         hostnum=$((hostnum+1))
            done;
+    printbar
     read -p "Where would you like to jump? (0): " server; server=${server:-0}
     printbar
     if [ $server -eq 0 ]; then
